@@ -1,4 +1,10 @@
-﻿using System;
+﻿//==========================================================
+// Student Number  : S10267180D
+// Student Name  : De Roza Ariel Therese
+// Partner Name  : Peh Ya An
+//==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
