@@ -15,11 +15,11 @@ namespace S10267801_PRG2Assignment
 {
     internal class BoardingGate : Flight
     {
-        public string gateName;
-        public bool supportsCFFT;
-        public bool supportsDDJB;
-        public bool supportsLWTT;
-        public Flight flight;
+        private string gateName;
+        private bool supportsCFFT;
+        private bool supportsDDJB;
+        private bool supportsLWTT;
+        private Flight flight;
         public string GateName { get; set; }
         public bool SupportsCFFT { get; set; }
         public bool SupportsDDJB { get; set; }
