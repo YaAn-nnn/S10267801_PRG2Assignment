@@ -20,19 +20,19 @@ namespace S10267801_PRG2Assignment
         private bool supportsDDJB;
         private bool supportsLWTT;
         private Flight flight;
-        public string GateName { get; set; }
-        public bool SupportsCFFT { get; set; }
-        public bool SupportsDDJB { get; set; }
-        public bool SupportsLWTT { get; set; }
-        public Flight Flight { get; set; }
+        public string GateName { get { return gateName; } set { gateName = value; } }
+        public bool SupportsCFFT { get { return supportsCFFT; } set { supportsCFFT = value; } }
+        public bool SupportsDDJB { get { return supportsDDJB; } set { supportsDDJB = value; } }
+        public bool SupportsLWTT { get { return supportsLWTT; } set { supportsLWTT = value; } }
+        public Flight Flight { get { return flight; } set { flight = value; } }
 
 
         public BoardingGate(string Name, bool CFFT, bool DDJB, bool LWTT) : base()
         {
-            Name = GateName;
-            CFFT = SupportsCFFT;
-            DDJB = SupportsDDJB;
-            LWTT = SupportsLWTT;
+            GateName = Name;
+            SupportsCFFT = CFFT;
+            SupportsDDJB = DDJB;
+            SupportsLWTT = LWTT;
         }
 
         public override double CalculateFees()
@@ -53,7 +53,7 @@ namespace S10267801_PRG2Assignment
 
         public override string ToString()
         {
-            return $"Gate Name: {GateName}, Supports CFFT: {SupportsCFFT}, Supports DDJB: {SupportsDDJB}, Supports LWTT: {SupportsLWTT}, " + $"Assigned Flight: {(flight != null ? Flight.FlightNumber : "None")}";
+            return $"{GateName,-15} {SupportsCFFT,-22} {SupportsDDJB,-22} {SupportsLWTT}";
         }
     }
 }
