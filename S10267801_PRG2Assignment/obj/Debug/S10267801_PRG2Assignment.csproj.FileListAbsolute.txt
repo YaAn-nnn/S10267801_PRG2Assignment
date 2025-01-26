@@ -1,0 +1,7 @@
+C:\Users\yaan1\Yr1Sem2\Programming\S10267801_PRG2Assignment\S10267801_PRG2Assignment\obj\Debug\S10267801_PRG2Assignment.csproj.AssemblyReference.cache
+C:\Users\yaan1\Yr1Sem2\Programming\S10267801_PRG2Assignment\S10267801_PRG2Assignment\obj\Debug\S10267801_PRG2Assignment.csproj.CoreCompileInputs.cache
+C:\Users\yaan1\Yr1Sem2\Programming\S10267801_PRG2Assignment\S10267801_PRG2Assignment\bin\Debug\S10267801_PRG2Assignment.exe.config
+C:\Users\yaan1\Yr1Sem2\Programming\S10267801_PRG2Assignment\S10267801_PRG2Assignment\bin\Debug\S10267801_PRG2Assignment.exe
+C:\Users\yaan1\Yr1Sem2\Programming\S10267801_PRG2Assignment\S10267801_PRG2Assignment\bin\Debug\S10267801_PRG2Assignment.pdb
+C:\Users\yaan1\Yr1Sem2\Programming\S10267801_PRG2Assignment\S10267801_PRG2Assignment\obj\Debug\S10267801_PRG2Assignment.exe
+C:\Users\yaan1\Yr1Sem2\Programming\S10267801_PRG2Assignment\S10267801_PRG2Assignment\obj\Debug\S10267801_PRG2Assignment.pdb
