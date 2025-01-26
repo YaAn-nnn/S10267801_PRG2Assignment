@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
 namespace S10267801_PRG2Assignment
 {
@@ -27,16 +28,40 @@ namespace S10267801_PRG2Assignment
                 BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
                 boardingGates.Add(boardingGate);
             }
-            
-            
-            List<Flight> flights = new List<Flight>();
-            string[] lined = File.ReadAllLines(path + "/flights.csv");
-            for (int i = 1; i < lined.Length; i++)
+
+            Dictionary<string, string> airlineCodes = new Dictionary<string, string>();
+            string[] airlineLines = File.ReadAllLines(path + "/airlines.csv");
+            for (int i = 1; i < airlineLines.Length; i++)
             {
-                string[] datas = lined[i].Split(',');
-                Flight flight = new Flight(datas[0], datas[1], datas[2], DateTime.Parse(datas[3]), datas[4]);
-                flights.Add(flight);
+                string[] data = airlineLines[i].Split(',');
+                string airlineName = data[0].Trim();
+                string airlineCode = data[1].Trim();
+                airlineCodes[airlineCode] = airlineName;
+
             }
+
+
+            List<Flight> flights = new List<Flight>();
+            string[] flightLines = File.ReadAllLines(path + "/flights.csv");
+            for (int i = 1; i < flightLines.Length; i++)
+            {
+                string[] data = flightLines[i].Split(',');
+                string flightNumber = data[0].Trim();
+                string origin = data[1].Trim();
+                string destination = data[2].Trim();
+                DateTime departureTime = DateTime.Parse(data[3].Trim());
+                string status = data[4].Trim();
+
+                // Get airline code (first two characters of flight number)
+                string airlineCode = flightNumber.Substring(0, 2);
+
+                // Find airline name using the code
+                string airlineName = airlineCodes.ContainsKey(airlineCode) ? airlineCodes[airlineCode] : "Unknown";
+
+                // Add flight to the list
+                flights.Add(new Flight(flightNumber, airlineName, origin, destination, departureTime, status));
+            }
+
 
             while (true)
             {
@@ -63,8 +88,10 @@ namespace S10267801_PRG2Assignment
                     Console.WriteLine("=============================================");
                     Console.WriteLine("List of Flights for Changi Airport Terminal 5");
                     Console.WriteLine("=============================================");
+                    Console.WriteLine("Flight Number   Airline Name             Origin                    Destination              Expected Departure/Arrival Time");
                     foreach (var flight in flights)
                     {
+                   
                         Console.WriteLine(flight.ToString());
                     }
 
