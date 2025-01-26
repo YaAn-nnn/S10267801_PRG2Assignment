@@ -11,8 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace S10267801_PRG2Assignment
-{ 
-    internal class Airline
+{
+    internal class Airline : Flight
     {
         private string name;
         private string code;
@@ -37,24 +37,25 @@ namespace S10267801_PRG2Assignment
         }
 
 
-        public Airline(string name, string code, Dictionary<string, Flight> flights):base()
+        public Airline(string name, string code, Dictionary<string, Flight> flights) : base()
         {
-            this.Name = name;
-            this.Code = code;
+            name = this.Name;
+            code = this.Code;
+            flights = this.Flights;
         }
 
-        public bool AddFlight(Flight)
+        public bool AddFlight(Flight flight)
         {
-            if (flight == null || flights.ContainsKey(Flight.flightNumber))
+            if (flight == null || flights.ContainsKey(FlightNumber))
                 return false;
 
-            flights[Flight.flightNumber] = flight;
+            flights[FlightNumber] = flight;
             return true;
         }
 
-        public bool RemoveFlight(Flight)
+        public bool RemoveFlight(Flight flight)
         {
-            return flights.Remove(Flight.flightNumber);
+            return flights.Remove(FlightNumber);
         }
 
         public double CalculateFlight()
@@ -69,7 +70,7 @@ namespace S10267801_PRG2Assignment
 
         public override string ToString()
         {
-            return $"Airline Name: {Name}, Code: {Code}, Total Flights: {flights.Count}";
+            return $"Flight Number: {FlightNumber}, Airline Name: {Name}, Origin: {Origin}, Destination: {Destination}, Expected Departure/Arrival Time: {ExpectedTime:dd/MM/yyyy hh:mm:ss tt}";
         }
     }
 

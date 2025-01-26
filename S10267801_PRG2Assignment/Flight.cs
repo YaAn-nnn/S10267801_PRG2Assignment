@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace S10267801_PRG2Assignment
 {
-    abstract class Flight
+    internal class Flight
     {
         private string flightNumber;
         private string origin;
@@ -95,7 +95,6 @@ namespace S10267801_PRG2Assignment
             return base.CalculateFees() + 300;
         }
     }
-
     class CFFTFlight : Flight
     {
         private double requestFee;
@@ -111,3 +110,4 @@ namespace S10267801_PRG2Assignment
         }
     }
 }
+

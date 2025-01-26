@@ -17,13 +17,21 @@ namespace S10267801_PRG2Assignment
     {
         static void Main(string[] args)
         {
-            List<BoardingGate> boardingGates = new List<BoardingGate> ();
+            List<BoardingGate> boardingGates = new List<BoardingGate>();
             string[] lines = File.ReadAllLines("/CSV_Files/boardinggates.csv");
             for (int i = 1; i < lines.Length; i++)
             {
                 string[] data = lines[i].Split(',');
                 BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
                 boardingGates.Add(boardingGate);
+            }
+            List<Flight> flights = new List<Flight>();
+            string[] lined = File.ReadAllLines("/CSV_Files/flights.csv");
+            for (int i = 1; i < lined.Length; i++)
+            {
+                string[] datas = lined[i].Split(',');
+                Flight flight = new Flight(datas[0], datas[1], datas[2], DateTime.Parse(datas[3]), datas[4]);
+                flights.Add(flight);
             }
 
             while (true)
@@ -43,8 +51,14 @@ namespace S10267801_PRG2Assignment
                 int option = Convert.ToInt32(Console.ReadLine());
                 if (option == 1)
                 {
+                    Console.WriteLine("=============================================");
+                    Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+                    Console.WriteLine("=============================================");
+                    foreach (var flight in flights)
+                    {
+                        Console.WriteLine(flight.ToString());
+                    }
 
-                    
                 }
                 if (option == 2)
                 {
@@ -60,3 +74,4 @@ namespace S10267801_PRG2Assignment
         }
     }
 }
+

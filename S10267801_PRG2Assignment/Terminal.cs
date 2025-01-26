@@ -20,13 +20,13 @@ namespace S10267801_PRG2Assignment
         private Dictionary<string, BoardingGate> boardingGates;
         private Dictionary<string, double> gateFees;
 
-        public string TerminalName { get; set;}
-        public Dictionary<string, Airline> Airlines { get; set;}
-        public Dictionary<string, Flight> Flights { get; set;}
-        public Dictionary<string, BoardingGate> BoardingGates { get; set;}
-        public Dictionary<string, double> GateFees { get; set;}
+        public string TerminalName { get; set; }
+        public Dictionary<string, Airline> Airlines { get; set; }
+        public Dictionary<string, Flight> Flights { get; set; }
+        public Dictionary<string, BoardingGate> BoardingGates { get; set; }
+        public Dictionary<string, double> GateFees { get; set; }
 
-        public Terminal(string term, Dictionary<string,Airline>air, Dictionary<string,Flight>fly, Dictionary<string,BoardingGate> board, Dictionary<string, double> gates)
+        public Terminal(string term, Dictionary<string, Airline> air, Dictionary<string, Flight> fly, Dictionary<string, BoardingGate> board, Dictionary<string, double> gates)
         {
             TerminalName = term;
             Airlines = air;
