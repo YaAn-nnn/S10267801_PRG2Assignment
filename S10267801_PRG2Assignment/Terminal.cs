@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRGASSIGNMENT_S10267180D_ARIELDEROZA
+namespace S10267801_PRG2Assignment
 {
     internal class Terminal
     {

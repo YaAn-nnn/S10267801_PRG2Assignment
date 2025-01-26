@@ -10,16 +10,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRGASSIGNMENT_S10267180D_ARIELDEROZA
-{
+namespace S10267801_PRG2Assignment
+{ 
     internal class Airline
     {
         private string name;
         private string code;
         private Dictionary<string, Flight> flights;
 
-        public string Name { get; set; }
-        public string Code { get { return code; } set { code = value; } }
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public Dictionary<string, Flight> Flights
+        {
+            get { return flights; }
+            set { flights = value; }
+        }
+
 
         public Airline(string name, string code, Dictionary<string, Flight> flights):base()
         {

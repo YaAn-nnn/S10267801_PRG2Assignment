@@ -10,15 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRGASSIGNMENT_S10267180D_ARIELDEROZA
+namespace S10267801_PRG2Assignment
 {
     internal class BoardingGate
     {
-        private string gateName;
-        private bool supportsCFFT;
-        private bool supportsDDJB;
-        private bool supportsLWTT;
-        private Flight flight;
         public string GateName { get; set; }
         public bool SupportsCFFT { get; set; }
         public bool SupportsDDJB { get; set; }
@@ -26,13 +21,12 @@ namespace PRGASSIGNMENT_S10267180D_ARIELDEROZA
         public Flight Flight { get; set; }
 
 
-        public BoardingGate(string Name, bool CFFT, bool DDJB, bool LWTT, Flight flight)
+        public BoardingGate(string Name, bool CFFT, bool DDJB, bool LWTT)
         {
-            this.gateName = Name;
-            this.supportsCFFT = CFFT;
-            this.supportsDDJB = DDJB;
-            this.supportsLWTT = LWTT;
-            this.flight = flight;
+            GateName = Name;
+            SupportsCFFT = CFFT;
+            SupportsDDJB = DDJB;
+            SupportsLWTT = LWTT;
         }
 
         public double CalculateFees()
