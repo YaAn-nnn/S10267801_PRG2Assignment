@@ -65,47 +65,64 @@ namespace S10267801_PRG2Assignment
 
             while (true)
             {
-                Console.WriteLine("=============================================");
-                Console.WriteLine("Welcome to Changi Airport Terminal 5");
-                Console.WriteLine("=============================================");
-                Console.WriteLine("1. List All Flights");
-                Console.WriteLine("2. List Boarding Gates");
-                Console.WriteLine("3. Assign a Boarding Gate to a Flight");
-                Console.WriteLine("4. Create Flight");
-                Console.WriteLine("5. Display Airline Flights");
-                Console.WriteLine("6. Modify Flight Details");
-                Console.WriteLine("7. Display Flight Schedule");
-                Console.WriteLine("0. Exit");
-                Console.Write("Please select an option: ");
-                int option = Convert.ToInt32(Console.ReadLine());
-                if (option == 0)
-                {
-                    Console.WriteLine("Goodbye!");
-                    break;
-                }
-                if (option == 1)
+                try
                 {
                     Console.WriteLine("=============================================");
-                    Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+                    Console.WriteLine("Welcome to Changi Airport Terminal 5");
                     Console.WriteLine("=============================================");
-                    Console.WriteLine("Flight Number   Airline Name             Origin                    Destination              Expected Departure/Arrival Time");
-                    foreach (var flight in flights)
+                    Console.WriteLine("1. List All Flights");
+                    Console.WriteLine("2. List Boarding Gates");
+                    Console.WriteLine("3. Assign a Boarding Gate to a Flight");
+                    Console.WriteLine("4. Create Flight");
+                    Console.WriteLine("5. Display Airline Flights");
+                    Console.WriteLine("6. Modify Flight Details");
+                    Console.WriteLine("7. Display Flight Schedule");
+                    Console.WriteLine("0. Exit");
+                    Console.Write("Please select an option: ");
+                    int option = Convert.ToInt32(Console.ReadLine());
+
+                    if (option < 0 || option > 7)
                     {
-                   
-                        Console.WriteLine(flight.ToString());
+                        Console.WriteLine("Invalid option. Please select a number between 0 and 7.");
+                        continue;
+                    }
+                    if (option == 0)
+                    {
+                        Console.WriteLine("Goodbye!");
+                        break;
                     }
 
-                }
-                if (option == 2)
-                {
-                    Console.WriteLine("=============================================");
-                    Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
-                    Console.WriteLine("=============================================");
-                    Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
-                    foreach (var boardingGate in boardingGates)
+                    if (option == 1)
                     {
-                        Console.WriteLine(boardingGate.ToString());
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Flight Number   Airline Name             Origin                    Destination              Expected Departure/Arrival Time");
+                        foreach (var flight in flights)
+                        {
+                            Console.WriteLine(flight.ToString());
+                        }
                     }
+
+                    if (option == 2)
+                    {
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
+                        foreach (var boardingGate in boardingGates)
+                        {
+                            Console.WriteLine(boardingGate.ToString());
+                        }
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An unexpected error occurred: {ex.Message}");
                 }
             }
         }

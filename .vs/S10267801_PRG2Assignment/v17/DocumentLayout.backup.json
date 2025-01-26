@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\BoardingGate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|solutionrelative:S10267801_PRG2Assignment\\BoardingGate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|c:\\users\\yaan1\\yr1sem2\\programming\\s10267801_prg2assignment\\s10267801_prg2assignment\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|solutionrelative:s10267801_prg2assignment\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,6 +13,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Airline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|solutionrelative:S10267801_PRG2Assignment\\Airline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\s10267801_prg2assignment\\boardinggate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|solutionrelative:s10267801_prg2assignment\\boardinggate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D33F9CA2-23CC-4136-B0B1-388064892317}|S10267801_PRG2Assignment\\S10267801_PRG2Assignment.csproj|C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Terminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -44,58 +44,59 @@
               "RelativeDocumentMoniker": "S10267801_PRG2Assignment\\Terminal.cs",
               "ToolTip": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Terminal.cs",
               "RelativeToolTip": "S10267801_PRG2Assignment\\Terminal.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAADgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAYwDgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-26T08:04:32.109Z"
+              "WhenOpened": "2025-01-26T08:04:32.109Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "BoardingGate.cs",
               "DocumentMoniker": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\BoardingGate.cs",
               "RelativeDocumentMoniker": "S10267801_PRG2Assignment\\BoardingGate.cs",
               "ToolTip": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\BoardingGate.cs",
               "RelativeToolTip": "S10267801_PRG2Assignment\\BoardingGate.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAswDcAAABXAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAAADcAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-26T08:04:29.08Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Airline.cs",
               "DocumentMoniker": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Airline.cs",
               "RelativeDocumentMoniker": "S10267801_PRG2Assignment\\Airline.cs",
               "ToolTip": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Airline.cs",
               "RelativeToolTip": "S10267801_PRG2Assignment\\Airline.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAQwDoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAACwAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-26T08:04:26.707Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Flight.cs",
               "DocumentMoniker": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Flight.cs",
               "RelativeDocumentMoniker": "S10267801_PRG2Assignment\\Flight.cs",
               "ToolTip": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Flight.cs",
               "RelativeToolTip": "S10267801_PRG2Assignment\\Flight.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwCIAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAADgAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-25T03:51:48.252Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Program.cs",
               "RelativeDocumentMoniker": "S10267801_PRG2Assignment\\Program.cs",
               "ToolTip": "C:\\Users\\yaan1\\Yr1Sem2\\Programming\\S10267801_PRG2Assignment\\S10267801_PRG2Assignment\\Program.cs",
               "RelativeToolTip": "S10267801_PRG2Assignment\\Program.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAqwDMAAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAAD0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-25T03:51:19.709Z",
               "EditorCaption": ""

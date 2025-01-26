@@ -40,9 +40,9 @@ namespace S10267801_PRG2Assignment
 
         public Airline(string name, string code, Dictionary<string, Flight> flights) : base()
         {
-            name = this.Name;
-            code = this.Code;
-            flights = this.Flights;
+            Name = name;
+            Code = code;
+            Flights = flights;
         }
 
         public bool AddFlight(Flight flight)
