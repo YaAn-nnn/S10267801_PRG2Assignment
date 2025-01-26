@@ -16,28 +16,45 @@ namespace PRGASSIGNMENT_S10267180D_ARIELDEROZA
     {
         private string name;
         private string code;
+        private Dictionary<string, Flight> flights;
+
         public string Name { get; set; }
         public string Code { get { return code; } set { code = value; } }
-        public Airline(string na, string co, Dictionary<string, Flight> fly) : base()
+
+        public Airline(string name, string code, Dictionary<string, Flight> flights):base()
         {
-            na = Name;
-            co = Code;
+            this.Name = name;
+            this.Code = code;
         }
+
         public bool AddFlight(Flight)
         {
+            if (flight == null || flights.ContainsKey(Flight.flightNumber))
+                return false;
 
+            flights[Flight.flightNumber] = flight;
+            return true;
         }
-        public double CalculateFlight()
-        {
 
-        }
         public bool RemoveFlight(Flight)
         {
-
+            return flights.Remove(Flight.flightNumber);
         }
+
+        public double CalculateFlight()
+        {
+            double totalFees = 0;
+            foreach (var flight in flights.Values)
+            {
+                totalFees += flight.CalculateFees();
+            }
+            return totalFees;
+        }
+
         public override string ToString()
         {
-            return "{0,-150} {1,-150} {2,-150} {3,-150} {4,-150} {5,-150}";
+            return $"Airline Name: {Name}, Code: {Code}, Total Flights: {flights.Count}";
         }
     }
+
 }
