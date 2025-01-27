@@ -54,7 +54,7 @@ namespace S10267801_PRG2Assignment
         }
         public override string ToString()
         {
-            return $"{FlightNumber}          {AirlineName}       {Origin}               {Destination}          {ExpectedTime:dd/MM/yyyy hh:mm:ss tt}";
+            return $"{FlightNumber,-16}{AirlineName,-25}{Origin,-26}{Destination,-25}{ExpectedTime:dd/MM/yyyy hh:mm:ss tt}";
         }
     }
 
