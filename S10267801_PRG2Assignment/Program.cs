@@ -36,7 +36,7 @@ namespace S10267801_PRG2Assignment
             for (int i = 1; i < airlineLines.Length; i++)
             {
                 string[] data = airlineLines[i].Split(',');
-                airlineCodes.Add(data[0].Trim(), data[0].Trim());
+                airlineCodes.Add(data[0].Trim(), data[1].Trim());
                 string airlineName = data[0].Trim();
                 string airlineCode = data[1].Trim();
                 airlineCodes[airlineCode] = airlineName;
@@ -69,8 +69,8 @@ namespace S10267801_PRG2Assignment
                 // Add flight to the dictionary with flight number as the key
                 Flight flight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, status, specialRequestCode);
                 flights.Add(flightNumber, flight);
-            
-        }
+
+            }
 
 
             while (true)
@@ -107,7 +107,7 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine("List of Flights for Changi Airport Terminal 5");
                         Console.WriteLine("=============================================");
                         Console.WriteLine("Flight Number   Airline Name             Origin                    Destination              Expected Departure/Arrival Time");
-                        foreach (var flight in flights)
+                        foreach (var flight in flights.Values)
                         {
                             Console.WriteLine(flight.ToString());
                         }
@@ -118,7 +118,7 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
                         Console.WriteLine("=============================================");
                         Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
-                        foreach (var boardingGate in boardingGates)
+                        foreach (var boardingGate in boardingGates.Values)
                         {
                             Console.WriteLine(boardingGate.ToString());
                         }
