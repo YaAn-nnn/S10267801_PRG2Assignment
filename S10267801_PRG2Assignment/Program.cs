@@ -19,13 +19,16 @@ namespace S10267801_PRG2Assignment
         static void Main(string[] args)
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CSV_Files");
-           
+
             List<BoardingGate> boardingGates = new List<BoardingGate>();
+            Dictionary<string, BoardingGate> boarding = new Dictionary<string, BoardingGate>();
             string[] lines = File.ReadAllLines(path + "/boardinggates.csv");
             for (int i = 1; i < lines.Length; i++)
             {
                 string[] data = lines[i].Split(',');
-                BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[2]), bool.Parse(data[1]), bool.Parse(data[3]));
+
+                BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
+                boarding.Add("Gate " + i, boardingGate);
                 boardingGates.Add(boardingGate);
             }
 
@@ -34,11 +37,13 @@ namespace S10267801_PRG2Assignment
             for (int i = 1; i < airlineLines.Length; i++)
             {
                 string[] data = airlineLines[i].Split(',');
+                airlineCodes.Add(data[0].Trim(), data[0].Trim());
                 string airlineName = data[0].Trim();
                 string airlineCode = data[1].Trim();
                 airlineCodes[airlineCode] = airlineName;
 
             }
+
 
 
             List<Flight> flights = new List<Flight>();
