@@ -33,8 +33,8 @@ namespace S10267801_PRG2Assignment
         public Flight() { }
         public Flight(string f, string a, string o, string d, DateTime e, string s, string sqc)
         {
-            AirlineName = a;
             FlightNumber = f;
+            AirlineName = a;
             Origin = o;
             Destination = d;
             ExpectedTime = e;
