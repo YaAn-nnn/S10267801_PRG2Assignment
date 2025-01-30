@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace S10267801_PRG2Assignment
 {
-    internal class Flight
+    internal class Flight : IComparable<Flight>
     {
         private string flightNumber;
         private string origin;
@@ -29,9 +29,10 @@ namespace S10267801_PRG2Assignment
         public string Status { get { return status; } set { status = value; } }
         public string SpecialRequestCode { get { return specialRequestCode; } set { specialRequestCode = value; } }
         public string AirlineName;
+        public string AssignedGate;
 
         public Flight() { }
-        public Flight(string f, string a, string o, string d, DateTime e, string s, string sqc)
+        public Flight(string f, string a, string o, string d, DateTime e, string s, string sqc, string ag)
         {
             FlightNumber = f;
             AirlineName = a;
@@ -40,6 +41,7 @@ namespace S10267801_PRG2Assignment
             ExpectedTime = e;
             Status = s;
             SpecialRequestCode = sqc;
+            AssignedGate = ag;
         }
 
         public virtual double CalculateFees()
@@ -59,12 +61,17 @@ namespace S10267801_PRG2Assignment
         {
             return $"{FlightNumber,-16}{AirlineName,-25}{Origin,-26}{Destination,-25}{ExpectedTime:dd/MM/yyyy hh:mm:ss tt}";
         }
+
+        public int CompareTo(Flight other)
+        {
+            return ExpectedTime.CompareTo(other.ExpectedTime);
+        }
     }
 
     class NORMFlight : Flight
     {
         public NORMFlight() { }
-        public NORMFlight(string f, string a, string o, string d, DateTime e, string s, string sqc) : base(f, a, o, d, e, s, sqc) { }
+        public NORMFlight(string f, string a, string o, string d, DateTime e, string s, string sqc, string ag) : base(f, a, o, d, e, s, sqc, ag) { }
 
         public override double CalculateFees()
         {
@@ -78,7 +85,7 @@ namespace S10267801_PRG2Assignment
 
         public double RequestFee { get { return requestFee; } set { requestFee = value; } }
         public LWTTFlight() { }
-        public LWTTFlight(string f, string a, string o, string d, DateTime e, string s, double r, string sqc) : base(f, a, o, d, e, s, sqc) { RequestFee = r; }
+        public LWTTFlight(string f, string a, string o, string d, DateTime e, string s, double r, string sqc, string ag) : base(f, a, o, d, e, s, sqc, ag) { RequestFee = r; }
 
 
         public override double CalculateFees()
@@ -93,7 +100,7 @@ namespace S10267801_PRG2Assignment
 
         public double RequestFee { get { return requestFee; } set { requestFee = value; } }
         public DDJBFlight() { }
-        public DDJBFlight(string f, string a, string o, string d, DateTime e, string s, double r, string sqc) : base(f, a, o, d, e, s, sqc) { RequestFee = r; }
+        public DDJBFlight(string f, string a, string o, string d, DateTime e, string s, double r, string sqc, string ag) : base(f, a, o, d, e, s, sqc, ag) { RequestFee = r; }
 
         public override double CalculateFees()
         {
@@ -106,7 +113,7 @@ namespace S10267801_PRG2Assignment
 
         public double RequestFee { get { return requestFee; } set { requestFee = value; } }
         public CFFTFlight() { }
-        public CFFTFlight(string f, string a, string o, string d, DateTime e, string s, double r, string sqc) : base(f, a, o, d, e, s, sqc) { RequestFee = r; }
+        public CFFTFlight(string f, string a, string o, string d, DateTime e, string s, double r, string sqc, string ag) : base(f, a, o, d, e, s, sqc, ag) { RequestFee = r; }
 
 
         public override double CalculateFees()

@@ -64,10 +64,11 @@ namespace S10267801_PRG2Assignment
                     airlineName = airlineCodes[airlineCode];  // Use the dictionary to get the airline name
                 }
 
-                string status = "On Time";  // Default status for feature 5 (Option 3)
+                string status = "Scheduled";
+                string assignedGate = "Unassigned";
 
                 // Add flight to the dictionary with flight number as the key
-                Flight flight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, status, specialRequestCode);
+                Flight flight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, status, specialRequestCode, assignedGate);
                 flights.Add(flightNumber, flight);
 
             }
@@ -251,7 +252,7 @@ namespace S10267801_PRG2Assignment
                             {
                                 airlineName = airlineCodes[airlineCode];
                             }
-                            Flight newFlight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, "On Time", specialRequestCode);
+                            Flight newFlight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, "Scheduled", specialRequestCode, "Unassigned");
                             flights[flightNumber] = newFlight;
 
                             using (StreamWriter sw = new StreamWriter(path+"/flights.csv", true))
@@ -267,6 +268,28 @@ namespace S10267801_PRG2Assignment
                             {
                                 break;
                             }
+                        }
+                    }
+                    if (option == 5)
+                    {
+
+                    }
+                    if (option == 6)
+                    {
+
+                    }
+                    if (option == 7)
+                    {
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time     Status          Boarding Gate");
+                        List<Flight> sortedFlights = flights.Values.ToList();
+                        sortedFlights.Sort();
+
+                        foreach (var flight in sortedFlights)
+                        {
+                            Console.WriteLine($"{flight.FlightNumber, -15} {flight.AirlineName, -22} {flight.Origin, -22} {flight.Destination,-22} {flight.ExpectedTime,-35} {flight.Status,-15} {flight.AssignedGate}");
                         }
                     }
                 }
