@@ -254,9 +254,9 @@ namespace S10267801_PRG2Assignment
                             Flight newFlight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, "On Time", specialRequestCode);
                             flights[flightNumber] = newFlight;
 
-                            using (StreamWriter sw = new StreamWriter(path+"flights.csv", true))
+                            using (StreamWriter sw = new StreamWriter(path+"/flights.csv", true))
                             {
-                                sw.WriteLine($"{flightNumber},{origin},{destination},{expectedTime:HH:mm},{specialRequestCode}");
+                                sw.WriteLine($"{flightNumber},{origin},{destination},{expectedTime:HH:mm tt},{specialRequestCode}");
                             }
                             Console.WriteLine($"Flight {flightNumber} has been added!");
 
