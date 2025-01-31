@@ -134,27 +134,29 @@ namespace S10267801_PRG2Assignment
                             Console.WriteLine("Enter Flight Number:");
                             string flightNumber = Console.ReadLine();
                             Flight selectedFlight = null;
-                            if (flights.ContainsKey(flightNumber))
-                            {
-                                selectedFlight = flights[flightNumber];
-                            }
-                            else
+                            while (!flights.ContainsKey(flightNumber))
                             {
                                 Console.WriteLine($"Flight number {flightNumber} not found. Please try again.");
+                                Console.WriteLine("Enter Flight Number:");
+                                flightNumber = Console.ReadLine();
+                                selectedFlight = null;
                             }
+                            selectedFlight = flights[flightNumber];
+
+
 
                             Console.WriteLine("Enter Boarding Gate Name:");
                             string boardingGate = Console.ReadLine();
                             BoardingGate selectedGate = null;
-                            if (boardingGates.ContainsKey(boardingGate))
-                            {
-                                selectedGate = boardingGates[boardingGate];
-                                Console.WriteLine($"Selected Gate: {selectedGate.GateName}");
-                            }
-                            else
+                            while (!boardingGates.ContainsKey(boardingGate))
                             {
                                 Console.WriteLine("Boarding gate not found.");
+                                Console.WriteLine("Enter Boarding Gate Name:");
+                                boardingGate = Console.ReadLine();
+                                selectedGate = null;
                             }
+                            selectedGate = boardingGates[boardingGate];
+                            Console.WriteLine($"Selected Gate: {selectedGate.GateName}");
 
                             // Check if the boarding gate is already assigned to another flight
                             if (selectedGate.Flight != null)
