@@ -5,12 +5,9 @@
 //==========================================================
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography.X509Certificates;
 
 namespace S10267801_PRG2Assignment
 {
@@ -33,16 +30,19 @@ namespace S10267801_PRG2Assignment
 
             Dictionary<string, string> airlineCodes = new Dictionary<string, string>();
             string[] airlineLines = File.ReadAllLines(path + "/airlines.csv");
+            List<string> codes = new List<string>();
+            List<string> names = new List<string>();
             for (int i = 1; i < airlineLines.Length; i++)
             {
                 string[] data = airlineLines[i].Split(',');
                 airlineCodes.Add(data[0].Trim(), data[1].Trim());
                 string airlineName = data[0].Trim();
+                names.Add(airlineName);
                 string airlineCode = data[1].Trim();
+                codes.Add(airlineCode);
                 airlineCodes[airlineCode] = airlineName;
             }
-
-
+            List<string> numbers = new List<string>();
             Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
             string[] flightLines = File.ReadAllLines(path + "/flights.csv");
             for (int i = 1; i < flightLines.Length; i++)
@@ -53,7 +53,7 @@ namespace S10267801_PRG2Assignment
                 string destination = data[2].Trim();
                 DateTime expectedTime = DateTime.Parse(data[3].Trim());
                 string specialRequestCode = data[4].Trim();
-
+                numbers.Add(flightNumber);
                 // Get airline code (first two characters of flight number)
                 string airlineCode = flightNumber.Substring(0, 2);
 
@@ -63,14 +63,12 @@ namespace S10267801_PRG2Assignment
                 {
                     airlineName = airlineCodes[airlineCode];  // Use the dictionary to get the airline name
                 }
-
                 string status = "Scheduled";
                 string assignedGate = "Unassigned";
 
                 // Add flight to the dictionary with flight number as the key
                 Flight flight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, status, specialRequestCode, assignedGate);
                 flights.Add(flightNumber, flight);
-
             }
 
 
@@ -257,7 +255,7 @@ namespace S10267801_PRG2Assignment
                             Flight newFlight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, "Scheduled", specialRequestCode, "Unassigned");
                             flights[flightNumber] = newFlight;
 
-                            using (StreamWriter sw = new StreamWriter(path+"/flights.csv", true))
+                            using (StreamWriter sw = new StreamWriter(path + "/flights.csv", true))
                             {
                                 sw.WriteLine($"{flightNumber},{origin},{destination},{expectedTime:HH:mm tt},{specialRequestCode}");
                             }
@@ -275,6 +273,46 @@ namespace S10267801_PRG2Assignment
                     if (option == 5)
                     {
 
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Airline Code    Airline Name");
+                        for (int i = 0; i < codes.Count; i++)
+                        {
+                            Console.WriteLine($"{codes[i],-16}{names[i],-12}");
+                        }
+                        Console.Write("Enter Airline Code: ");
+                        string entername = Console.ReadLine();
+
+                        int entercode = 0;
+                        for (int i = 0; i < codes.Count; i++)
+                        {
+
+                            if (codes[i] == entername)
+                            {
+                                entercode = i;
+
+                            }
+                        }
+                        Console.WriteLine($"=============================================\r\nList of Flights for {names[entercode]}\r\n=============================================");
+                        Console.WriteLine("Flight Number   Airline Name             Origin                    Destination              Expected Departure/Arrival Time");
+                        string airlinenamecode = "";
+                        List<Flight> fligh = new List<Flight>();
+                        foreach (var code in flights.Keys)
+                        {
+                            airlinenamecode = code.Substring(0, 2);
+                            if (airlinenamecode == entername)
+                            {
+                                fligh.Add(flights[code]);
+                                
+                            }
+                        }
+                        foreach (var flight in fligh)
+                        {
+                            Console.WriteLine(flight);
+                        }
+
+
                     }
                     if (option == 6)
                     {
@@ -291,7 +329,7 @@ namespace S10267801_PRG2Assignment
 
                         foreach (var flight in sortedFlights)
                         {
-                            Console.WriteLine($"{flight.FlightNumber, -15} {flight.AirlineName, -22} {flight.Origin, -22} {flight.Destination,-22} {flight.ExpectedTime,-35} {flight.Status,-15} {flight.AssignedGate}");
+                            Console.WriteLine($"{flight.FlightNumber,-15} {flight.AirlineName,-22} {flight.Origin,-22} {flight.Destination,-22} {flight.ExpectedTime,-35} {flight.Status,-15} {flight.AssignedGate}");
                         }
                     }
                 }

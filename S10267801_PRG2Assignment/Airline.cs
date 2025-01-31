@@ -69,10 +69,11 @@ namespace S10267801_PRG2Assignment
             return totalFees;
         }
 
-    public override string ToString()
+        public override string ToString()
         {
             return $"{FlightNumber}          {Name}       {Origin}               {Destination}          {ExpectedTime:dd/MM/yyyy hh:mm:ss tt}";
         }
+        
     }
 
 }
