@@ -272,7 +272,6 @@ namespace S10267801_PRG2Assignment
                     }
                     if (option == 5)
                     {
-
                         Console.WriteLine("=============================================");
                         Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
                         Console.WriteLine("=============================================");
@@ -283,15 +282,42 @@ namespace S10267801_PRG2Assignment
                         }
                         Console.Write("Enter Airline Code: ");
                         string entername = Console.ReadLine();
-
+                        int check = 0;
+                        for (int i = 0; i < codes.Count; i++)
+                        {
+                            if (codes[i] == entername)
+                            {
+                                check = 1;
+                            }
+                        }
+                        while (check == 0 || entername.Length != 2)
+                        {
+                            if (check == 0)
+                            {
+                                Console.WriteLine("This is not a valid airline. Please try again");
+                                Console.Write("Enter Airline Code: ");
+                                entername = Console.ReadLine();
+                                for (int i = 0; i < codes.Count; i++)
+                                {
+                                    if (codes[i] == entername)
+                                    {
+                                        check = 1;
+                                    }
+                                }
+                            }
+                            if (entername.Length != 2)
+                            {
+                                Console.WriteLine("This is not a 2 character string. Please try again");
+                                Console.Write("Enter Airline Code: ");
+                                entername = Console.ReadLine();
+                            }
+                        }
                         int entercode = 0;
                         for (int i = 0; i < codes.Count; i++)
                         {
-
                             if (codes[i] == entername)
                             {
                                 entercode = i;
-
                             }
                         }
                         Console.WriteLine($"=============================================\r\nList of Flights for {names[entercode]}\r\n=============================================");
@@ -304,19 +330,49 @@ namespace S10267801_PRG2Assignment
                             if (airlinenamecode == entername)
                             {
                                 fligh.Add(flights[code]);
-                                
                             }
                         }
                         foreach (var flight in fligh)
                         {
                             Console.WriteLine(flight);
                         }
-
-
                     }
                     if (option == 6)
                     {
-
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Airline Code    Airline Name");
+                        for (int i = 0; i < codes.Count; i++)
+                        {
+                            Console.WriteLine($"{codes[i],-16}{names[i],-12}");
+                        }
+                        Console.Write("Enter Airline Code: ");
+                        string entername = Console.ReadLine();
+                        int entercode = 0;
+                        for (int i = 0; i < codes.Count; i++)
+                        {
+                            if (codes[i] == entername)
+                            {
+                                entercode = i;
+                            }
+                        }
+                        Console.WriteLine($"=============================================\r\nList of Flights for {names[entercode]}\r\n=============================================");
+                        Console.WriteLine("Flight Number   Airline Name             Origin                    Destination              Expected Departure/Arrival Time");
+                        string airlinenamecode = "";
+                        List<Flight> fligh = new List<Flight>();
+                        foreach (var code in flights.Keys)
+                        {
+                            airlinenamecode = code.Substring(0, 2);
+                            if (airlinenamecode == entername)
+                            {
+                                fligh.Add(flights[code]);
+                            }
+                        }
+                        foreach (var flight in fligh)
+                        {
+                            Console.WriteLine(flight);
+                        }
                     }
                     if (option == 7)
                     {
