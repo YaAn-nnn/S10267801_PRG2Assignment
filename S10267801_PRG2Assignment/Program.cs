@@ -24,7 +24,7 @@ namespace S10267801_PRG2Assignment
                 string[] data = lines[i].Split(',');
 
                 // Creating BoardingGate object and adding it to the dictionary
-                BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
+                BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[2]), bool.Parse(data[1]), bool.Parse(data[3]));
                 boardingGates.Add(data[0].Trim(), boardingGate);  // Use Gate Name as the key
             }
 
@@ -42,6 +42,7 @@ namespace S10267801_PRG2Assignment
                 codes.Add(airlineCode);
                 airlineCodes[airlineCode] = airlineName;
             }
+
             List<string> numbers = new List<string>();
             Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
             string[] flightLines = File.ReadAllLines(path + "/flights.csv");
@@ -71,6 +72,11 @@ namespace S10267801_PRG2Assignment
                 flights.Add(flightNumber, flight);
             }
 
+            Terminal terminal = new Terminal("Terminal 5",
+                new Dictionary<string, Airline>(),
+                flights,
+                boardingGates,
+                new Dictionary<string, double>());
 
             while (true)
             {
@@ -86,13 +92,14 @@ namespace S10267801_PRG2Assignment
                     Console.WriteLine("5. Display Airline Flights");
                     Console.WriteLine("6. Modify Flight Details");
                     Console.WriteLine("7. Display Flight Schedule");
+                    Console.WriteLine("8. Process All Unassigned Flights to Boarding Gates");
                     Console.WriteLine("0. Exit");
                     Console.Write("Please select an option: ");
                     int option = Convert.ToInt32(Console.ReadLine());
 
-                    if (option < 0 || option > 7)
+                    if (option < 0 || option > 8)
                     {
-                        Console.WriteLine("Invalid option. Please select a number between 0 and 7.");
+                        Console.WriteLine("Invalid option. Please select a number between 0 and 8.");
                         continue;
                     }
                     if (option == 0)
@@ -387,6 +394,43 @@ namespace S10267801_PRG2Assignment
                         {
                             Console.WriteLine($"{flight.FlightNumber,-15} {flight.AirlineName,-22} {flight.Origin,-22} {flight.Destination,-22} {flight.ExpectedTime,-35} {flight.Status,-15} {flight.AssignedGate}");
                         }
+                    }
+                    if (option == 8)
+                    {
+                        Queue<Flight> unassignedFlights = new Queue<Flight>();
+                        int unassignedFlightCount = 0;
+                        int unassignedBoardingGateCount = 0;
+                        foreach (var flight in terminal.Flights.Values)
+                        {
+                            if (flight.AssignedGate == "Unassigned")
+                            {
+                                unassignedFlights.Enqueue(flight);
+                                unassignedFlightCount++;
+                            }
+                        }
+                        Console.WriteLine($"Total number of Flights without a Boarding Gate assigned: {unassignedFlightCount}");
+
+                        foreach (var gate in terminal.BoardingGates.Values)
+                        {
+                            bool isGateAssigned = false;
+
+                            // Loop through all flights to check if the gate is assigned
+                            foreach (var flight in terminal.Flights.Values)
+                            {
+                                if (flight.AssignedGate == gate.GateName)
+                                {
+                                    isGateAssigned = true;
+                                    break; // Exit the loop early if the gate is assigned
+                                }
+                            }
+
+                            // If the gate is not assigned, increment the counter
+                            if (!isGateAssigned)
+                            {
+                                unassignedBoardingGateCount++;
+                            }
+                        }
+                        Console.WriteLine($"Total number of Boarding Gates without a Flight assigned: {unassignedBoardingGateCount}");
                     }
                 }
                 catch (FormatException)
