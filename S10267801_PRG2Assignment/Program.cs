@@ -4,6 +4,7 @@
 // Partner Name  : De Roza Ariel Therese
 //==========================================================
 
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,6 +45,7 @@ namespace S10267801_PRG2Assignment
             }
 
             List<string> numbers = new List<string>();
+            List<Array> flighting = new List<Array>();
             Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
             string[] flightLines = File.ReadAllLines(path + "/flights.csv");
             for (int i = 1; i < flightLines.Length; i++)
@@ -70,6 +72,9 @@ namespace S10267801_PRG2Assignment
                 // Add flight to the dictionary with flight number as the key
                 Flight flight = new Flight(flightNumber, airlineName, origin, destination, expectedTime, status, specialRequestCode, assignedGate);
                 flights.Add(flightNumber, flight);
+                String times = Convert.ToString(expectedTime);
+                string[] flighter = { flightNumber, airlineName, origin, destination, times, status, specialRequestCode, assignedGate };
+                flighting.Add(flighter);
             }
 
             Terminal terminal = new Terminal("Terminal 5",
@@ -356,6 +361,36 @@ namespace S10267801_PRG2Assignment
                         }
                         Console.Write("Enter Airline Code: ");
                         string entername = Console.ReadLine();
+                        int check = 0;
+                        for (int i = 0; i < codes.Count; i++)
+                        {
+                            if (codes[i] == entername)
+                            {
+                                check = 1;
+                            }
+                        }
+                        while (check == 0 || entername.Length != 2)
+                        {
+                            if (check == 0)
+                            {
+                                Console.WriteLine("This is not a valid airline. Please try again");
+                                Console.Write("Enter Airline Code: ");
+                                entername = Console.ReadLine();
+                                for (int i = 0; i < codes.Count; i++)
+                                {
+                                    if (codes[i] == entername)
+                                    {
+                                        check = 1;
+                                    }
+                                }
+                            }
+                            if (entername.Length != 2)
+                            {
+                                Console.WriteLine("This is not a 2 character string. Please try again");
+                                Console.Write("Enter Airline Code: ");
+                                entername = Console.ReadLine();
+                            }
+                        }
                         int entercode = 0;
                         for (int i = 0; i < codes.Count; i++)
                         {
@@ -379,6 +414,124 @@ namespace S10267801_PRG2Assignment
                         foreach (var flight in fligh)
                         {
                             Console.WriteLine(flight);
+                        }
+                        Console.Write("Choose an existing Flight to modify or delete: ");
+                        string choice = Console.ReadLine();
+                        int check2 = 0;
+                        foreach (var code in flights.Keys)
+                        {
+                            if (choice == code)
+                            {
+                                check2 = 1;
+                            }
+                        }
+                        while (check2 == 0)
+                        {
+                            Console.WriteLine("This is not a valid flight number. Please try again");
+                            Console.Write("Choose an existing Flight to modify or delete: ");
+                            choice = Console.ReadLine();
+                            foreach (var code in flights.Keys)
+                            {
+                                if (choice == code)
+                                {
+                                    check2 = 1;
+                                }
+                            }
+                        }
+                        Console.WriteLine("1. Modify Flight \r\n2. Delete Flight");
+                        Console.Write("Choose an Option: ");
+                        int choice2 = Convert.ToInt32(Console.ReadLine());
+                        while (choice2 > 2 || choice2 < 1)
+                        {
+                            Console.WriteLine("That is not a valid choice. Pleae try again.");
+                            Console.WriteLine("1. Modify Flight \r\n2. Delete Flight");
+                            Console.Write("Choose an Option: ");
+                            choice2 = Convert.ToInt32(Console.ReadLine());
+                        }
+                        if (choice2 == 1)
+                        {
+                            List<string> list = new List<string>();
+                            int checker = 0;
+                            int checkedif = 0;
+                            foreach (var flight in flighting)
+                            {
+                                string code = Convert.ToString(flight.GetValue(0));
+                                if (code == choice)
+                                {
+                                    checkedif = checker;
+                                    for (int i = 0; i < flight.Length; i++)
+                                    {
+                                        list.Add(Convert.ToString(flight.GetValue(i)));
+                                        Console.WriteLine(flight.GetValue(i));
+                                    }
+                                }
+                                checker++;
+                            }
+                            Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate");
+                            Console.Write("Choose an Option: ");
+                            int choice3 = Convert.ToInt32(Console.ReadLine());
+                            while (choice3 > 4 || choice3 < 1)
+                            {
+                                Console.WriteLine("That is not a valid choice. Pleae try again.");
+                                Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate");
+                                Console.Write("Choose an Option: ");
+                                choice3 = Convert.ToInt32(Console.ReadLine());
+                            }
+                            if (choice3 == 1)
+                            {
+                                Console.Write("Enter new Origin: ");
+                                string originnew = Console.ReadLine();
+                                Console.Write("Enter new Destination: ");
+                                string destinationnew = Console.ReadLine();
+                                Console.Write("Enter new Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+                                string EDATnew = Console.ReadLine();
+
+                                list[2] = originnew;
+                                list[3] = destinationnew;
+                                list[4] = EDATnew;
+                                flighting[checkedif] = list.ToArray();
+                                Console.WriteLine("Flight Updated!");
+                                Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
+                            }
+                            else if (choice3 == 2)
+                            {
+                                Console.Write("Enter new Status: ");
+                                string statusnew = Console.ReadLine();
+
+                                list[5] = statusnew;
+                                flighting[checkedif] = list.ToArray();
+                                Console.WriteLine("Flight Updated!");
+                                Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
+                            }
+                            else if (choice3 == 3)
+                            {
+                                Console.Write("Enter new Special Request Code: ");
+                                string SRCnew = Console.ReadLine();
+                                list[6] = SRCnew;
+                                flighting[checkedif] = list.ToArray();
+                                Console.WriteLine("Flight Updated!");
+                                Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
+                            }
+                            else if (choice3 == 4)
+                            {
+                                Console.Write("Enter new Boarding Gate: ");
+                                string BGnew = Console.ReadLine();
+                                list[7] = BGnew;
+                                flighting[checkedif] = list.ToArray();
+                                Console.WriteLine("Flight Updated!");
+                                Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
+                            }
+                        }
+                        else if (choice2 == 2)
+                        {
+                            foreach (var code in flights.Keys)
+                            {
+                                if (code == choice)
+                                {
+                                    flights.Remove(code);
+                                    Console.WriteLine("Flight successfully removed.");
+                                }
+                            }
                         }
                     }
                     if (option == 7)
