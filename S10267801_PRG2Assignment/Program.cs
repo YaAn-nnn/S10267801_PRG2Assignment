@@ -148,7 +148,7 @@ namespace S10267801_PRG2Assignment
                             Console.WriteLine("Enter Flight Number:");
                             string flightNumber = Console.ReadLine();
                             Flight selectedFlight = null;
-                            while (flights.ContainsKey(flightNumber))
+                            while (!flights.ContainsKey(flightNumber))
                             {
                                 Console.WriteLine($"Flight number {flightNumber} not found. Please try again.");
                                 Console.WriteLine("Enter Flight Number:");
@@ -162,7 +162,7 @@ namespace S10267801_PRG2Assignment
                             Console.WriteLine("Enter Boarding Gate Name:");
                             string boardingGate = Console.ReadLine();
                             BoardingGate selectedGate = null;
-                            while (boardingGates.ContainsKey(boardingGate))
+                            while (!boardingGates.ContainsKey(boardingGate))
                             {
                                 Console.WriteLine("Boarding gate not found.");
                                 Console.WriteLine("Enter Boarding Gate Name:");
@@ -179,8 +179,46 @@ namespace S10267801_PRG2Assignment
                             }
                             else
                             {
-                                selectedGate.Flight = selectedFlight;
-                                selectedFlight.AssignedGate = selectedGate.GateName;
+                                // Check if there is a special request code
+                                if (string.IsNullOrEmpty(selectedFlight.SpecialRequestCode))
+                                {
+                                    // If no special request, assign the gate
+                                    selectedGate.Flight = selectedFlight;
+                                    selectedFlight.AssignedGate = selectedGate.GateName;
+                                }
+                                else
+                                {
+                                    string[] specialRequestCodes = { "CFFT", "DDJB", "LWTT" };
+
+                                    // Check if the SpecialRequestCode matches one of the special codes
+                                    bool isSpecialCodeValid = false;
+                                    foreach (var code in specialRequestCodes)
+                                    {
+                                        if (selectedFlight.SpecialRequestCode == code)
+                                        {
+                                            if ((code == "CFFT" && selectedGate.SupportsCFFT) ||
+                                                (code == "DDJB" && selectedGate.SupportsDDJB) ||
+                                                (code == "LWTT" && selectedGate.SupportsLWTT))
+                                            {
+                                                isSpecialCodeValid = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (isSpecialCodeValid)
+                                    {
+                                        // If the special request is valid and gate supports it, assign the gate
+                                        selectedGate.Flight = selectedFlight;
+                                        selectedFlight.AssignedGate = selectedGate.GateName;
+                                    }
+                                    else
+                                    {
+                                        // Handle the case where the special request code isn't valid
+                                        Console.WriteLine($"Special request {selectedFlight.SpecialRequestCode} not supported by Gate {selectedGate.GateName}. Please choose a different gate.");
+                                        continue;
+                                    }
+                                }
                             }
 
                             Console.WriteLine($"Flight Number: {selectedFlight.FlightNumber}");
@@ -235,8 +273,6 @@ namespace S10267801_PRG2Assignment
                             Console.WriteLine($"Flight {selectedFlight.FlightNumber} has been assigned to Boarding Gate {selectedGate.GateName}!");
                             break;
                         }
-
-
                     }
                     if (option == 4)
                     {
