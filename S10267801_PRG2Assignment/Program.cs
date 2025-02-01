@@ -601,7 +601,7 @@ namespace S10267801_PRG2Assignment
                         while (unassignedFlights.Count > 0)
                         {
                             Flight currentFlight = unassignedFlights.Dequeue();
-                            bool hasSpecialRequest = string.IsNullOrEmpty(currentFlight.SpecialRequestCode);
+                            bool hasSpecialRequest = !string.IsNullOrEmpty(currentFlight.SpecialRequestCode);
                             BoardingGate assignedGate = null;
 
                             foreach (var gate in terminal.BoardingGates.Values)
@@ -663,9 +663,10 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine($"Total number of Boarding Gates processed and assigned: {processedGates}");
                         int totalFlights = terminal.Flights.Count;
                         int totalGates = terminal.BoardingGates.Count;
-
-                        double flightPercentage = processedFlights / totalFlights * 100;
-                        double gatePercentage = processedGates / totalGates * 100;
+                        double flightPercentage = (double)processedFlights / totalFlights * 100;
+                        double gatePercentage = (double)processedGates / totalGates * 100;
+                        Console.WriteLine($"Percentage of Flights processed automatically: {flightPercentage:F2}%");
+                        Console.WriteLine($"Percentage of Boarding Gates processed automatically: {gatePercentage:F2}%");
                     }
                 }
                 catch (FormatException)
