@@ -78,6 +78,10 @@ namespace S10267801_PRG2Assignment
                 boardingGates,
                 new Dictionary<string, double>());
 
+            Queue<Flight> unassignedFlights = new Queue<Flight>();
+            int unassignedFlightCount;
+            int unassignedBoardingGateCount;
+
             while (true)
             {
                 try
@@ -139,7 +143,7 @@ namespace S10267801_PRG2Assignment
                             Console.WriteLine("Enter Flight Number:");
                             string flightNumber = Console.ReadLine();
                             Flight selectedFlight = null;
-                            while (!flights.ContainsKey(flightNumber))
+                            while (flights.ContainsKey(flightNumber))
                             {
                                 Console.WriteLine($"Flight number {flightNumber} not found. Please try again.");
                                 Console.WriteLine("Enter Flight Number:");
@@ -153,7 +157,7 @@ namespace S10267801_PRG2Assignment
                             Console.WriteLine("Enter Boarding Gate Name:");
                             string boardingGate = Console.ReadLine();
                             BoardingGate selectedGate = null;
-                            while (!boardingGates.ContainsKey(boardingGate))
+                            while (boardingGates.ContainsKey(boardingGate))
                             {
                                 Console.WriteLine("Boarding gate not found.");
                                 Console.WriteLine("Enter Boarding Gate Name:");
@@ -168,9 +172,11 @@ namespace S10267801_PRG2Assignment
                             {
                                 Console.WriteLine($"Boarding Gate {boardingGate} is already assigned to Flight {selectedGate.Flight.FlightNumber}. Please try again.");
                             }
-
-                            // Assign flight to gate
-                            selectedGate.Flight = selectedFlight;
+                            else
+                            {
+                                selectedGate.Flight = selectedFlight;
+                                selectedFlight.AssignedGate = selectedGate.GateName;
+                            }
 
                             Console.WriteLine($"Flight Number: {selectedFlight.FlightNumber}");
                             Console.WriteLine($"Origin: {selectedFlight.Origin}");
@@ -213,7 +219,11 @@ namespace S10267801_PRG2Assignment
                                     Console.WriteLine("Please enter a number from 1 to 3.");
                                 }
                             }
-                            if (response != "Y" || response != "N")
+                            if (response == "N")
+                            {
+                                selectedFlight.Status = "On Time";
+                            }
+                            else
                             {
                                 Console.WriteLine("Please enter Y or N.");
                             }
@@ -397,9 +407,9 @@ namespace S10267801_PRG2Assignment
                     }
                     if (option == 8)
                     {
-                        Queue<Flight> unassignedFlights = new Queue<Flight>();
-                        int unassignedFlightCount = 0;
-                        int unassignedBoardingGateCount = 0;
+                        unassignedFlightCount = 0;
+                        unassignedBoardingGateCount = 0;
+
                         foreach (var flight in terminal.Flights.Values)
                         {
                             if (flight.AssignedGate == "Unassigned")
@@ -414,23 +424,95 @@ namespace S10267801_PRG2Assignment
                         {
                             bool isGateAssigned = false;
 
-                            // Loop through all flights to check if the gate is assigned
                             foreach (var flight in terminal.Flights.Values)
                             {
                                 if (flight.AssignedGate == gate.GateName)
                                 {
                                     isGateAssigned = true;
-                                    break; // Exit the loop early if the gate is assigned
+                                    break;
                                 }
                             }
-
-                            // If the gate is not assigned, increment the counter
                             if (!isGateAssigned)
                             {
                                 unassignedBoardingGateCount++;
                             }
                         }
                         Console.WriteLine($"Total number of Boarding Gates without a Flight assigned: {unassignedBoardingGateCount}");
+
+                        int processedFlights = 0;
+                        int processedGates = 0;
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
+                        Console.WriteLine("=============================================");
+                        Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time     Status          Boarding Gate");
+                        while (unassignedFlights.Count > 0)
+                        {
+                            Flight currentFlight = unassignedFlights.Dequeue();
+                            bool hasSpecialRequest = string.IsNullOrEmpty(currentFlight.SpecialRequestCode);
+                            BoardingGate assignedGate = null;
+
+                            foreach (var gate in terminal.BoardingGates.Values)
+                            {
+                                bool isGateUnassigned = true;
+                                foreach (var flight in terminal.Flights.Values)
+                                {
+                                    if (flight.AssignedGate == gate.GateName)
+                                    {
+                                        isGateUnassigned = false;
+                                        break;
+                                    }
+                                }
+
+                                if (isGateUnassigned)
+                                {
+                                    if (hasSpecialRequest)
+                                    {
+                                        string[] specialRequestCodes = { "CFFT", "DDJB", "LWTT" };
+                                        foreach (var code in specialRequestCodes)
+                                        {
+                                            if (currentFlight.SpecialRequestCode == code)
+                                            {
+                                                if ((code == "CFFT" && gate.SupportsCFFT) ||
+                                                    (code == "DDJB" && gate.SupportsDDJB) ||
+                                                    (code == "LWTT" && gate.SupportsLWTT))
+                                                {
+                                                    assignedGate = gate;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (string.IsNullOrEmpty(gate.SpecialRequestCode))
+                                        {
+                                            assignedGate = gate;
+                                        }
+                                    }
+
+                                    if (assignedGate != null)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (assignedGate != null)
+                            {
+                                currentFlight.AssignedGate = assignedGate.GateName;
+                                processedFlights++;
+                                processedGates++;
+                                Console.WriteLine($"{currentFlight.FlightNumber,-15} {currentFlight.AirlineName,-22} {currentFlight.Origin,-22} {currentFlight.Destination,-22} {currentFlight.ExpectedTime,-35} {currentFlight.Status,-15} {currentFlight.AssignedGate}");
+                            }
+                        }
+
+                        Console.WriteLine($"Total number of Flights processed and assigned: {processedFlights}");
+                        Console.WriteLine($"Total number of Boarding Gates processed and assigned: {processedGates}");
+                        int totalFlights = terminal.Flights.Count;
+                        int totalGates = terminal.BoardingGates.Count;
+
+                        double flightPercentage = processedFlights / totalFlights * 100;
+                        double gatePercentage = processedGates / totalGates * 100;
                     }
                 }
                 catch (FormatException)
