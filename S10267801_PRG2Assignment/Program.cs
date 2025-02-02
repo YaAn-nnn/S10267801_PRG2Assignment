@@ -168,7 +168,6 @@ namespace S10267801_PRG2Assignment
                                 Console.WriteLine($"Flight number {flightNumber} not found. Please try again.");
                                 Console.WriteLine("Enter Flight Number:");
                                 flightNumber = Console.ReadLine();
-                                selectedFlight = null;
                             }
                             selectedFlight = flights[flightNumber];
 
@@ -182,7 +181,6 @@ namespace S10267801_PRG2Assignment
                                 Console.WriteLine("Boarding gate not found.");
                                 Console.WriteLine("Enter Boarding Gate Name:");
                                 boardingGate = Console.ReadLine();
-                                selectedGate = null;
                             }
                             selectedGate = boardingGates[boardingGate];
                             Console.WriteLine($"Selected Gate: {selectedGate.GateName}");
@@ -295,33 +293,43 @@ namespace S10267801_PRG2Assignment
                         {
                             Console.Write("Enter Flight Number: ");
                             string flightNumber = Console.ReadLine();
-                            int check2 = 0;
-                            foreach (var code in flights.Keys)
+
+                            // List of valid prefixes
+                            string[] validPrefixes = { "SQ", "MH", "JL", "CX", "QF", "TR", "EK", "BA" };
+
+                            // Keep asking until a valid flight number is entered
+                            while (!validPrefixes.Contains(flightNumber.Substring(0, 2)) || flights.ContainsKey(flightNumber))
                             {
-                                if (flightNumber == code)
+                                if (!validPrefixes.Contains(flightNumber.Substring(0, 2)))
                                 {
-                                    check2 = 1;
+                                    Console.WriteLine("Invalid flight number prefix. It must start with SQ, MH, JL, CX, QF, TR, EK, or BA.");
                                 }
-                            }
-                            while (check2 == 0)
-                            {
-                                Console.WriteLine("This is not a valid flight number. Please try again");
+                                else if (flights.ContainsKey(flightNumber))
+                                {
+                                    Console.WriteLine("This flight number already exists. Please try again.");
+                                }
+
                                 Console.Write("Enter Flight Number: ");
                                 flightNumber = Console.ReadLine();
-                                foreach (var code in flights.Keys)
-                                {
-                                    if (flightNumber == code)
-                                    {
-                                        check2 = 1;
-                                    }
-                                }
                             }
+
 
                             Console.Write("Enter Origin: ");
                             string origin = Console.ReadLine();
 
                             Console.Write("Enter Destination: ");
                             string destination = Console.ReadLine();
+
+                            while (origin == destination)
+                            {
+                                Console.WriteLine("Origin and destination cannot be the same. Please enter again.");
+
+                                Console.Write("Enter Origin: ");
+                                origin = Console.ReadLine();
+
+                                Console.Write("Enter Destination: ");
+                                destination = Console.ReadLine();
+                            }
 
                             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
                             DateTime expectedTime;
@@ -685,7 +693,8 @@ namespace S10267801_PRG2Assignment
                     {
                         unassignedFlightCount = 0;
                         unassignedBoardingGateCount = 0;
-
+                        
+                        //Count unassigned flights and enqueue them for processing
                         foreach (var flight in terminal.Flights.Values)
                         {
                             if (flight.AssignedGate == "Unassigned")
@@ -695,7 +704,8 @@ namespace S10267801_PRG2Assignment
                             }
                         }
                         Console.WriteLine($"Total number of Flights without a Boarding Gate assigned: {unassignedFlightCount}");
-
+                        
+                        //Count unassigned boarding gates
                         foreach (var gate in terminal.BoardingGates.Values)
                         {
                             bool isGateAssigned = false;
@@ -721,15 +731,20 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
                         Console.WriteLine("=============================================");
                         Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time     Status          Boarding Gate");
+
+                        // Process each unassigned flight and try to find a suitable gate
                         while (unassignedFlights.Count > 0)
                         {
                             Flight currentFlight = unassignedFlights.Dequeue();
                             bool hasSpecialRequest = !string.IsNullOrEmpty(currentFlight.SpecialRequestCode);
                             BoardingGate assignedGate = null;
 
+                            // Iterate through available gates to find a suitable match
                             foreach (var gate in terminal.BoardingGates.Values)
                             {
                                 bool isGateUnassigned = true;
+
+                                // Check if the gate is already assigned
                                 foreach (var flight in terminal.Flights.Values)
                                 {
                                     if (flight.AssignedGate == gate.GateName)
@@ -741,6 +756,7 @@ namespace S10267801_PRG2Assignment
 
                                 if (isGateUnassigned)
                                 {
+                                    // If the flight has a special request, ensure the gate supports it
                                     if (hasSpecialRequest)
                                     {
                                         string[] specialRequestCodes = { "CFFT", "DDJB", "LWTT" };
@@ -748,6 +764,7 @@ namespace S10267801_PRG2Assignment
                                         {
                                             if (currentFlight.SpecialRequestCode == code)
                                             {
+                                                // Check if the gate supports the required special request
                                                 if ((code == "CFFT" && gate.SupportsCFFT) ||
                                                     (code == "DDJB" && gate.SupportsDDJB) ||
                                                     (code == "LWTT" && gate.SupportsLWTT))
@@ -760,6 +777,7 @@ namespace S10267801_PRG2Assignment
                                     }
                                     else
                                     {
+                                        // If no special request, assign any available gate
                                         if (string.IsNullOrEmpty(gate.SpecialRequestCode))
                                         {
                                             assignedGate = gate;
@@ -775,6 +793,7 @@ namespace S10267801_PRG2Assignment
 
                             if (assignedGate != null)
                             {
+                                // Assign the selected gate if a match was found
                                 currentFlight.AssignedGate = assignedGate.GateName;
                                 processedFlights++;
                                 processedGates++;
