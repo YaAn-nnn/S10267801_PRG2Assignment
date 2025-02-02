@@ -43,7 +43,14 @@ namespace S10267801_PRG2Assignment
                 codes.Add(airlineCode);
                 airlineCodes[airlineCode] = airlineName;
             }
-
+            int SQ = 0;
+            int MH = 0;
+            int JL = 0;
+            int CX = 0;
+            int QF = 0;
+            int TR = 0;
+            int EK = 0;
+            int BA = 0;
             List<string> numbers = new List<string>();
             List<Array> flighting = new List<Array>();
             Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
@@ -59,9 +66,41 @@ namespace S10267801_PRG2Assignment
                 numbers.Add(flightNumber);
                 // Get airline code (first two characters of flight number)
                 string airlineCode = flightNumber.Substring(0, 2);
+                if (airlineCode == "SQ")
+                {
+                    SQ += 1;
+                }
+                else if (airlineCode == "MH")
+                {
+                    MH += 1;
+                }
+                else if (airlineCode == "JL")
+                {
+                    JL += 1;
+                }
+                else if (airlineCode == "CX")
+                {
+                    CX += 1;
+                }
+                else if (airlineCode == "QF")
+                {
+                    QF += 1;
+                }
+                else if (airlineCode == "TR")
+                {
+                    TR += 1;
+                }
+                else if (airlineCode == "EK")
+                {
+                    EK += 1;
+                }
+                else if (airlineCode == "BA")
+                {
+                    BA += 1;
+                }
 
-                // Find airline name using the code
-                string airlineName = "Unknown";
+                    // Find airline name using the code
+                    string airlineName = "Unknown";
                 if (airlineCodes.ContainsKey(airlineCode))
                 {
                     airlineName = airlineCodes[airlineCode];  // Use the dictionary to get the airline name
@@ -82,11 +121,22 @@ namespace S10267801_PRG2Assignment
                 flights,
                 boardingGates,
                 new Dictionary<string, double>());
-
+            Flight flightings = new Flight();
             Queue<Flight> unassignedFlights = new Queue<Flight>();
             int unassignedFlightCount;
             int unassignedBoardingGateCount;
-
+            CFFTFlight cFFT = new CFFTFlight();
+            DDJBFlight dDJB = new DDJBFlight();
+            LWTTFlight lWTT = new LWTTFlight();
+            Dictionary<string,int> airliners = new Dictionary<string,int>();
+            airliners.Add("SQ", SQ);
+            airliners.Add("MH", MH);
+            airliners.Add("JL", JL);
+            airliners.Add("CX", CX);
+            airliners.Add("QF", QF);
+            airliners.Add("TR", TR);
+            airliners.Add("EK", EK);
+            airliners.Add("BA", BA);
             while (true)
             {
                 try
@@ -102,13 +152,14 @@ namespace S10267801_PRG2Assignment
                     Console.WriteLine("6. Modify Flight Details");
                     Console.WriteLine("7. Display Flight Schedule");
                     Console.WriteLine("8. Process All Unassigned Flights to Boarding Gates");
+                    Console.WriteLine("9. Display Total Fee per Airline");
                     Console.WriteLine("0. Exit");
                     Console.Write("Please select an option: ");
                     int option = Convert.ToInt32(Console.ReadLine());
 
-                    if (option < 0 || option > 8)
+                    if (option < 0 || option > 9)
                     {
-                        Console.WriteLine("Invalid option. Please select a number between 0 and 8.");
+                        Console.WriteLine("Invalid option. Please select a number between 0 and 9.");
                         continue;
                     }
                     if (option == 0)
@@ -704,10 +755,124 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine($"Percentage of Flights processed automatically: {flightPercentage:F2}%");
                         Console.WriteLine($"Percentage of Boarding Gates processed automatically: {gatePercentage:F2}%");
                     }
+                    if (option == 9)
+                    {
+                        double totalfirst = 0;
+                        double totaldiscount = 0;
+                        double subtotal = 0;
+                        double subtotaldiscount = 0;
+                        double total = flightings.CalculateFees();
+                        foreach (var flight in terminal.Flights.Values)
+                        {
+                            if (flight.AssignedGate == "Unassigned")
+                            {
+                                Console.WriteLine("There are still flights that are unassigned. Please run option 8 before running this option again");
+                                break;
+                            }
+                            else
+                            {
+
+                                List<string> list = new List<string>();
+                                foreach (var flightd in flighting)
+                                {
+                                    for (int i = 0; i < flightd.Length; i++)
+                                    {
+                                        list.Add(Convert.ToString(flightd.GetValue(i)));
+                                    }
+                                }
+                                if (list[6] == "CFFT")
+                                {
+                                    cFFT.CalculateFees();
+                                }
+                                else if (list[6] == "DDJB")
+                                {
+                                    dDJB.CalculateFees();
+                                }
+                                else if (list[6] == "LWTT")
+                                {
+                                    lWTT.CalculateFees();
+                                }
+                                if (list[2] == "Singapore (SIN)")
+                                {
+                                    total += 800;
+                                }
+                                if (list[3] == "Singapore (SIN)")
+                                {
+                                    total += 500;
+                                }
+                                totalfirst += total;
+
+                                
+                                foreach (var code in airliners.Keys)
+                                {
+                                    if (list[0].Substring(0, 2) == code && airliners[code] > 5)
+                                    {
+                                        totaldiscount += total * 0.03;
+                                        total = total * 0.97;
+
+                                    }
+                                    if (list[0].Substring(0, 2) == code && airliners[code] >= 3)
+                                    {
+                                        int discountcheck1 = Convert.ToInt32(Math.Floor(Convert.ToDecimal(airliners[code] / 3)));
+                                        total -= discountcheck1 * 350;
+                                        totaldiscount += discountcheck1 * 350;
+                                    }
+                                }
+                            }
+                        }
+                        TimeSpan startTime = new TimeSpan(11, 0, 0);
+                        TimeSpan endTime = new TimeSpan(21, 0, 0);
+
+                        foreach (var flighted in flighting)
+                        {
+                            string discountcheck2 = Convert.ToString(flighted.GetValue(4));
+                            DateTime dateTime = Convert.ToDateTime(discountcheck2);
+                            TimeSpan discountchecker2 = dateTime.TimeOfDay;
+                            if (discountchecker2 >= startTime && discountchecker2 <= endTime)
+                            {
+                                total += 0;
+                            }
+                            else
+                            {
+                                total -= 110;
+                                totaldiscount += 110;
+                            }
+                            string discountcheck3 = Convert.ToString(flighted.GetValue(2));
+                            if (discountcheck3 == "Dubai (DXB)" || discountcheck3 == "Bangkok (BKK)" || discountcheck3 == "Tokyo (NRT)")
+                            {
+                                total -= 25;
+                                totaldiscount += 25;
+                            }
+                            else
+                            {
+                                total += 0;
+                                totaldiscount += 0;
+                            }
+                            if (flighted.GetValue(2) == null)
+                            {
+                                total -= 50;
+                                totaldiscount += 50;
+                            }
+                            else
+                            {
+                                total += 0;
+                                totaldiscount += 0;
+                            }
+
+                        }
+                        subtotaldiscount += totaldiscount;
+                        double percent = (subtotaldiscount / (totalfirst - subtotaldiscount)) * 100;
+                        string percentage = percent.ToString("#.##");
+                        Console.WriteLine($"The original total was ${totalfirst}");
+                        Console.WriteLine($"Subtotal of discounts is ${subtotaldiscount}");
+                        Console.WriteLine($"The final total of Airline fees that Terminal 5 will collect is ${totalfirst -subtotaldiscount}");
+                        Console.WriteLine($"The percentage of the subtotal discounts over the final total of fees is {percentage}%");
+                    }
                 }
-                catch (FormatException)
+
+                catch (FormatException ex)
                 {
-                    Console.WriteLine("Invalid input. Please enter a number.");
+                    Console.WriteLine("Invalid input. Please enter a number." + ex.Message);
                 }
                 catch (Exception ex)
                 {
