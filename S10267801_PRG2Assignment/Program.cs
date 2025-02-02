@@ -43,14 +43,7 @@ namespace S10267801_PRG2Assignment
                 codes.Add(airlineCode);
                 airlineCodes[airlineCode] = airlineName;
             }
-            int SQ = 0;
-            int MH = 0;
-            int JL = 0;
-            int CX = 0;
-            int QF = 0;
-            int TR = 0;
-            int EK = 0;
-            int BA = 0;
+            int SQ = 0; int MH = 0; int JL = 0; int CX = 0; int QF = 0; int TR = 0; int EK = 0; int BA = 0;
             List<string> numbers = new List<string>();
             List<Array> flighting = new List<Array>();
             Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
@@ -66,38 +59,15 @@ namespace S10267801_PRG2Assignment
                 numbers.Add(flightNumber);
                 // Get airline code (first two characters of flight number)
                 string airlineCode = flightNumber.Substring(0, 2);
-                if (airlineCode == "SQ")
-                {
-                    SQ += 1;
-                }
-                else if (airlineCode == "MH")
-                {
-                    MH += 1;
-                }
-                else if (airlineCode == "JL")
-                {
-                    JL += 1;
-                }
-                else if (airlineCode == "CX")
-                {
-                    CX += 1;
-                }
-                else if (airlineCode == "QF")
-                {
-                    QF += 1;
-                }
-                else if (airlineCode == "TR")
-                {
-                    TR += 1;
-                }
-                else if (airlineCode == "EK")
-                {
-                    EK += 1;
-                }
-                else if (airlineCode == "BA")
-                {
-                    BA += 1;
-                }
+                if (airlineCode == "SQ") // To store how many flights in each airline
+                {SQ += 1;} else if (airlineCode == "MH")
+                {MH += 1;} else if (airlineCode == "JL")
+                {JL += 1;} else if (airlineCode == "CX")
+                {CX += 1;} else if (airlineCode == "QF")
+                {QF += 1;} else if (airlineCode == "TR")
+                {TR += 1;} else if (airlineCode == "EK")
+                {EK += 1;} else if (airlineCode == "BA")
+                {BA += 1;}
 
                     // Find airline name using the code
                     string airlineName = "Unknown";
@@ -121,22 +91,16 @@ namespace S10267801_PRG2Assignment
                 flights,
                 boardingGates,
                 new Dictionary<string, double>());
-            Flight flightings = new Flight();
+            Flight flightings = new Flight(); // To access the base Fee
             Queue<Flight> unassignedFlights = new Queue<Flight>();
             int unassignedFlightCount;
             int unassignedBoardingGateCount;
-            CFFTFlight cFFT = new CFFTFlight();
+            CFFTFlight cFFT = new CFFTFlight(); // To access CalculateFees in the class
             DDJBFlight dDJB = new DDJBFlight();
             LWTTFlight lWTT = new LWTTFlight();
             Dictionary<string,int> airliners = new Dictionary<string,int>();
-            airliners.Add("SQ", SQ);
-            airliners.Add("MH", MH);
-            airliners.Add("JL", JL);
-            airliners.Add("CX", CX);
-            airliners.Add("QF", QF);
-            airliners.Add("TR", TR);
-            airliners.Add("EK", EK);
-            airliners.Add("BA", BA);
+            airliners.Add("SQ", SQ); airliners.Add("MH", MH); airliners.Add("JL", JL); airliners.Add("CX", CX); airliners.Add("QF", QF); airliners.Add("TR", TR); airliners.Add("EK", EK); airliners.Add("BA", BA); 
+            // To assign the value of how many flights there are in each airline to its own key
             while (true)
             {
                 try
@@ -300,11 +264,11 @@ namespace S10267801_PRG2Assignment
                                 {
                                     selectedFlight.Status = "Delayed";
                                 }
-                                if (statusResponse == 2)
+                                else if (statusResponse == 2)
                                 {
                                     selectedFlight.Status = "Boarding";
                                 }
-                                if (statusResponse == 3)
+                                else if (statusResponse == 3)
                                 {
                                     selectedFlight.Status = "On Time";
                                 }
@@ -313,7 +277,7 @@ namespace S10267801_PRG2Assignment
                                     Console.WriteLine("Please enter a number from 1 to 3.");
                                 }
                             }
-                            if (response == "N")
+                            else if (response == "N")
                             {
                                 selectedFlight.Status = "On Time";
                             }
@@ -331,6 +295,27 @@ namespace S10267801_PRG2Assignment
                         {
                             Console.Write("Enter Flight Number: ");
                             string flightNumber = Console.ReadLine();
+                            int check2 = 0;
+                            foreach (var code in flights.Keys)
+                            {
+                                if (flightNumber == code)
+                                {
+                                    check2 = 1;
+                                }
+                            }
+                            while (check2 == 0)
+                            {
+                                Console.WriteLine("This is not a valid flight number. Please try again");
+                                Console.Write("Enter Flight Number: ");
+                                flightNumber = Console.ReadLine();
+                                foreach (var code in flights.Keys)
+                                {
+                                    if (flightNumber == code)
+                                    {
+                                        check2 = 1;
+                                    }
+                                }
+                            }
 
                             Console.Write("Enter Origin: ");
                             string origin = Console.ReadLine();
@@ -347,6 +332,12 @@ namespace S10267801_PRG2Assignment
 
                             Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
                             string specialRequestCode = Console.ReadLine();
+                            while (specialRequestCode != "LWTT" || specialRequestCode != "CFFT" || specialRequestCode != "DDJB" || specialRequestCode != "None")
+                            {
+                                Console.WriteLine("That is an invalid input. Please input either 'LWTT', 'CFFT', 'DDJB' or 'None'.");
+                                Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+                                specialRequestCode = Console.ReadLine();
+                            }
                             if (specialRequestCode == "None")
                             {
                                 specialRequestCode = null;
@@ -387,7 +378,7 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine("Airline Code    Airline Name");
                         for (int i = 0; i < codes.Count; i++)
                         {
-                            Console.WriteLine($"{codes[i],-16}{names[i],-12}");
+                            Console.WriteLine($"{codes[i],-16}{names[i],-12}"); // Prints the airline code and airline name
                         }
                         Console.Write("Enter Airline Code: ");
                         string entername = Console.ReadLine();
@@ -426,16 +417,15 @@ namespace S10267801_PRG2Assignment
                         {
                             if (codes[i] == entername)
                             {
-                                entercode = i;
+                                entercode = i; // Finds the airline name that corresponds to the airline code
                             }
                         }
                         Console.WriteLine($"=============================================\r\nList of Flights for {names[entercode]}\r\n=============================================");
                         Console.WriteLine("Flight Number   Airline Name             Origin                    Destination              Expected Departure/Arrival Time");
-                        string airlinenamecode = "";
                         List<Flight> fligh = new List<Flight>();
                         foreach (var code in flights.Keys)
                         {
-                            airlinenamecode = code.Substring(0, 2);
+                            string airlinenamecode = code.Substring(0, 2); // Makes sure that the flight number airline code is only the one input
                             if (airlinenamecode == entername)
                             {
                                 fligh.Add(flights[code]);
@@ -454,16 +444,16 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine("Airline Code    Airline Name");
                         for (int i = 0; i < codes.Count; i++)
                         {
-                            Console.WriteLine($"{codes[i],-16}{names[i],-12}");
+                            Console.WriteLine($"{codes[i],-16}{names[i],-12}"); // Prints the airline code and airline name
                         }
                         Console.Write("Enter Airline Code: ");
                         string entername = Console.ReadLine();
                         int check = 0;
-                        for (int i = 0; i < codes.Count; i++)
+                        for (int i = 0; i < codes.Count; i++) // Validation
                         {
                             if (codes[i] == entername)
                             {
-                                check = 1;
+                                check = 1; // If code entered is not in the list of codes, the check will forever remain 0
                             }
                         }
                         while (check == 0 || entername.Length != 2)
@@ -502,10 +492,10 @@ namespace S10267801_PRG2Assignment
                         List<Flight> fligh = new List<Flight>();
                         foreach (var code in flights.Keys)
                         {
-                            airlinenamecode = code.Substring(0, 2);
+                            airlinenamecode = code.Substring(0, 2); // To get just the Airline Code
                             if (airlinenamecode == entername)
                             {
-                                fligh.Add(flights[code]);
+                                fligh.Add(flights[code]); // Adds only the flights with matching flight number into the list
                             }
                         }
                         foreach (var flight in fligh)
@@ -555,19 +545,19 @@ namespace S10267801_PRG2Assignment
                                 string code = Convert.ToString(flight.GetValue(0));
                                 if (code == choice)
                                 {
-                                    checkedif = checker;
+                                    checkedif = checker; // Contains the value/index at which the Flight number input is in the List 
                                     for (int i = 0; i < flight.Length; i++)
                                     {
                                         list.Add(Convert.ToString(flight.GetValue(i)));
                                         Console.WriteLine(flight.GetValue(i));
                                     }
                                 }
-                                checker++;
+                                checker++; 
                             }
                             Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate");
                             Console.Write("Choose an Option: ");
                             int choice3 = Convert.ToInt32(Console.ReadLine());
-                            while (choice3 > 4 || choice3 < 1)
+                            while (choice3 > 4 || choice3 < 1) // Validation
                             {
                                 Console.WriteLine("That is not a valid choice. Pleae try again.");
                                 Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate");
@@ -585,7 +575,7 @@ namespace S10267801_PRG2Assignment
 
                                 list[2] = originnew;
                                 list[3] = destinationnew;
-                                list[4] = EDATnew;
+                                list[4] = EDATnew; // Replaces previous origin, destination and estimated deaparture/arrival time with updated ones
                                 flighting[checkedif] = list.ToArray();
                                 Console.WriteLine("Flight Updated!");
                                 Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
@@ -594,17 +584,32 @@ namespace S10267801_PRG2Assignment
                             {
                                 Console.Write("Enter new Status: ");
                                 string statusnew = Console.ReadLine();
-
-                                list[5] = statusnew;
+                                while (statusnew != "On Time" || statusnew != "Boarding" || statusnew != "Delayed")
+                                {
+                                    Console.WriteLine("That is an invalid input. Please input either 'Boarding', 'On Time' or 'Delayed'.");
+                                    Console.Write("Enter new Status: ");
+                                    statusnew = Console.ReadLine();
+                                }
+                                list[5] = statusnew; // Replaces previous status with updated one
                                 flighting[checkedif] = list.ToArray();
                                 Console.WriteLine("Flight Updated!");
                                 Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
                             }
                             else if (choice3 == 3)
                             {
-                                Console.Write("Enter new Special Request Code: ");
+                                Console.Write("Enter new Special Request Code (If there is none, please input 'None'): ");
                                 string SRCnew = Console.ReadLine();
-                                list[6] = SRCnew;
+                                while (SRCnew != "LWTT" || SRCnew != "CFFT" || SRCnew != "DDJB" || SRCnew != "None")
+                                {
+                                    Console.WriteLine("That is an invalid input. Please input either 'LWTT', 'CFFT', 'DDJB' or 'Non'.");
+                                    Console.Write("Enter new Special Request Code (If there is none, please input 'None'): ");
+                                    SRCnew = Console.ReadLine();
+                                }
+                                if (SRCnew == "None")
+                                {
+                                    SRCnew = null; // Makes the Special Request Code null if user input is None
+                                }
+                                list[6] = SRCnew; // Replaces previous Special Request Code with updated one
                                 flighting[checkedif] = list.ToArray();
                                 Console.WriteLine("Flight Updated!");
                                 Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
@@ -613,7 +618,38 @@ namespace S10267801_PRG2Assignment
                             {
                                 Console.Write("Enter new Boarding Gate: ");
                                 string BGnew = Console.ReadLine();
-                                list[7] = BGnew;
+                                while (BGnew.Length >3 || BGnew.Length < 2)
+                                {
+                                    Console.WriteLine("That is an invalid input. Please input a boarding gate with at least two characters and up to three characters");
+                                    Console.Write("Enter new Boarding Gate: ");
+                                    BGnew = Console.ReadLine();
+                                }
+                                while (BGnew[0] != 'A' || BGnew[0] != 'B' || BGnew[0] != 'C')
+                                {
+                                    Console.WriteLine("That is an invalid boarding gate. Please only input Gates that start with 'A', 'B' or 'C'.");
+                                    Console.Write("Enter new Boarding Gate: ");
+                                    BGnew = Console.ReadLine();
+                                }
+                                List<string> integerchecker = new List<string>();
+                                for (int i = 0; i < BGnew.Length; i++) 
+                                {
+                                    if (i == 1)
+                                    {
+                                        integerchecker.Add(Convert.ToString(BGnew[i])); // Adds the the number of the boarding gate to the list
+                                    }
+                                    if (i == 2)
+                                    {
+                                        integerchecker[0] += Convert.ToString(BGnew[i]); // If the number is two digits, add the second number to the first number
+                                    }
+                                }
+                                
+                                while (Convert.ToInt32(integerchecker[0]) < 1 || Convert.ToInt32(integerchecker[0]) > 22) // Checks if the number of the boarding gate is between 1 and 22
+                                {
+                                    Console.WriteLine("That is an invalid boarding gate. Please only input Gates that end with the numbers in between 1 and 22.");
+                                    Console.Write("Enter new Boarding Gate: ");
+                                    BGnew = Console.ReadLine();
+                                }
+                                list[7] = BGnew; // Replaces previous boarding gate with updated one
                                 flighting[checkedif] = list.ToArray();
                                 Console.WriteLine("Flight Updated!");
                                 Console.WriteLine($"Flight Number: {list[0]}\r\nAirline Name: {list[1]}\r\nOrigin: {list[2]}\r\nDestination: {list[3]}\r\nExpected Departure/Arrival Time: {Convert.ToDateTime(list[4])}\r\nStatus: {list[5]}\r\nSpecial Request Code: {list[6]}\r\nBoarding Gate: {list[7]}");
@@ -623,7 +659,7 @@ namespace S10267801_PRG2Assignment
                         {
                             foreach (var code in flights.Keys)
                             {
-                                if (code == choice)
+                                if (code == choice) // Finds flightnumber in dictionary
                                 {
                                     flights.Remove(code);
                                     Console.WriteLine("Flight successfully removed.");
@@ -757,22 +793,21 @@ namespace S10267801_PRG2Assignment
                     }
                     if (option == 9)
                     {
-                        double totalfirst = 0;
-                        double totaldiscount = 0;
-                        double subtotal = 0;
-                        double subtotaldiscount = 0;
-                        double total = flightings.CalculateFees();
+                        double totalfirst = 0; // To get the original subtotal altogether with no discounts
+                        double totaldiscount = 0; // To get the discount per flight
+                        double subtotaldiscount = 0; // To get the discount total through all flights
+                        double total = flightings.CalculateFees(); // To get the base total
                         foreach (var flight in terminal.Flights.Values)
                         {
-                            if (flight.AssignedGate == "Unassigned")
+                            if (flight.AssignedGate == "Unassigned") 
                             {
                                 Console.WriteLine("There are still flights that are unassigned. Please run option 8 before running this option again");
-                                break;
+                                break; // Forces user to run Option 8 before running this option
                             }
                             else
                             {
 
-                                List<string> list = new List<string>();
+                                List<string> list = new List<string>(); // To make accessing the objects easier
                                 foreach (var flightd in flighting)
                                 {
                                     for (int i = 0; i < flightd.Length; i++)
@@ -800,18 +835,18 @@ namespace S10267801_PRG2Assignment
                                 {
                                     total += 500;
                                 }
-                                totalfirst += total;
+                                totalfirst += total; // Gets the subtotal before discounts
 
                                 
                                 foreach (var code in airliners.Keys)
                                 {
-                                    if (list[0].Substring(0, 2) == code && airliners[code] > 5)
+                                    if (list[0].Substring(0, 2) == code && airliners[code] > 5) // Finds if the airline has more than 5 flights departing/arriving
                                     {
                                         totaldiscount += total * 0.03;
                                         total = total * 0.97;
 
                                     }
-                                    if (list[0].Substring(0, 2) == code && airliners[code] >= 3)
+                                    if (list[0].Substring(0, 2) == code && airliners[code] >= 3) // Finds if the airline has at least 3 flights
                                     {
                                         int discountcheck1 = Convert.ToInt32(Math.Floor(Convert.ToDecimal(airliners[code] / 3)));
                                         total -= discountcheck1 * 350;
@@ -820,15 +855,15 @@ namespace S10267801_PRG2Assignment
                                 }
                             }
                         }
-                        TimeSpan startTime = new TimeSpan(11, 0, 0);
-                        TimeSpan endTime = new TimeSpan(21, 0, 0);
+                        TimeSpan startTime = new TimeSpan(11, 0, 0); // 11 am
+                        TimeSpan endTime = new TimeSpan(21, 0, 0); //9 pm
 
                         foreach (var flighted in flighting)
                         {
-                            string discountcheck2 = Convert.ToString(flighted.GetValue(4));
+                            string discountcheck2 = Convert.ToString(flighted.GetValue(4)); 
                             DateTime dateTime = Convert.ToDateTime(discountcheck2);
                             TimeSpan discountchecker2 = dateTime.TimeOfDay;
-                            if (discountchecker2 >= startTime && discountchecker2 <= endTime)
+                            if (discountchecker2 >= startTime && discountchecker2 <= endTime) // Checks if the Time of Departure/Arrival is before 11am and after 9pm
                             {
                                 total += 0;
                             }
@@ -838,7 +873,7 @@ namespace S10267801_PRG2Assignment
                                 totaldiscount += 110;
                             }
                             string discountcheck3 = Convert.ToString(flighted.GetValue(2));
-                            if (discountcheck3 == "Dubai (DXB)" || discountcheck3 == "Bangkok (BKK)" || discountcheck3 == "Tokyo (NRT)")
+                            if (discountcheck3 == "Dubai (DXB)" || discountcheck3 == "Bangkok (BKK)" || discountcheck3 == "Tokyo (NRT)") // Checks if Origin is Dubai, Bangkok or Tokyo
                             {
                                 total -= 25;
                                 totaldiscount += 25;
@@ -848,7 +883,7 @@ namespace S10267801_PRG2Assignment
                                 total += 0;
                                 totaldiscount += 0;
                             }
-                            if (flighted.GetValue(2) == null)
+                            if (flighted.GetValue(7) == null) // Checks if there a flight has a Special Request code or not
                             {
                                 total -= 50;
                                 totaldiscount += 50;
@@ -860,8 +895,8 @@ namespace S10267801_PRG2Assignment
                             }
 
                         }
-                        subtotaldiscount += totaldiscount;
-                        double percent = (subtotaldiscount / (totalfirst - subtotaldiscount)) * 100;
+                        subtotaldiscount += totaldiscount; // Gets subtotal of discounts
+                        double percent = (subtotaldiscount / (totalfirst - subtotaldiscount)) * 100; // Gets percentage of total discount over final subtotal
                         string percentage = percent.ToString("#.##");
                         Console.WriteLine($"The original total was ${totalfirst}");
                         Console.WriteLine($"Subtotal of discounts is ${subtotaldiscount}");
