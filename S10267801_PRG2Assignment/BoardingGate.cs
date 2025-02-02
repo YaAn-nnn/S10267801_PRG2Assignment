@@ -53,7 +53,7 @@ namespace S10267801_PRG2Assignment
 
         public override string ToString()
         {
-            return $"{GateName,-15} {SupportsCFFT,-22} {SupportsDDJB,-22} {SupportsLWTT}";
+            return $"{GateName,-15} {SupportsDDJB,-22} {SupportsCFFT,-22} {SupportsLWTT}";
         }
     }
 }

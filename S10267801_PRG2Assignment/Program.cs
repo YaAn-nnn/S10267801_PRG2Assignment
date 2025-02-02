@@ -340,7 +340,7 @@ namespace S10267801_PRG2Assignment
 
                             Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
                             string specialRequestCode = Console.ReadLine();
-                            while (specialRequestCode != "LWTT" || specialRequestCode != "CFFT" || specialRequestCode != "DDJB" || specialRequestCode != "None")
+                            while (specialRequestCode != "LWTT" && specialRequestCode != "CFFT" && specialRequestCode != "DDJB" && specialRequestCode != "None")
                             {
                                 Console.WriteLine("That is an invalid input. Please input either 'LWTT', 'CFFT', 'DDJB' or 'None'.");
                                 Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
