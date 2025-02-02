@@ -810,21 +810,25 @@ namespace S10267801_PRG2Assignment
                         Console.WriteLine($"Percentage of Flights processed automatically: {flightPercentage:F2}%");
                         Console.WriteLine($"Percentage of Boarding Gates processed automatically: {gatePercentage:F2}%");
                     }
+
                     if (option == 9)
                     {
                         double totalfirst = 0; // To get the original subtotal altogether with no discounts
                         double totaldiscount = 0; // To get the discount per flight
                         double subtotaldiscount = 0; // To get the discount total through all flights
                         double total = flightings.CalculateFees(); // To get the base total
+                        int checker = 0;
                         foreach (var flight in terminal.Flights.Values)
                         {
-                            if (flight.AssignedGate == "Unassigned") 
+                            if (flight.AssignedGate == "Unassigned")
                             {
                                 Console.WriteLine("There are still flights that are unassigned. Please run option 8 before running this option again");
+                                checker = 1; // If it is 1 the bottom coee oytside the for loop will not run
                                 break; // Forces user to run Option 8 before running this option
                             }
                             else
                             {
+
 
                                 List<string> list = new List<string>(); // To make accessing the objects easier
                                 foreach (var flightd in flighting)
@@ -856,13 +860,15 @@ namespace S10267801_PRG2Assignment
                                 }
                                 totalfirst += total; // Gets the subtotal before discounts
 
-                                
+
+
                                 foreach (var code in airliners.Keys)
                                 {
                                     if (list[0].Substring(0, 2) == code && airliners[code] > 5) // Finds if the airline has more than 5 flights departing/arriving
                                     {
                                         totaldiscount += total * 0.03;
                                         total = total * 0.97;
+
 
                                     }
                                     if (list[0].Substring(0, 2) == code && airliners[code] >= 3) // Finds if the airline has at least 3 flights
@@ -874,55 +880,65 @@ namespace S10267801_PRG2Assignment
                                 }
                             }
                         }
-                        TimeSpan startTime = new TimeSpan(11, 0, 0); // 11 am
-                        TimeSpan endTime = new TimeSpan(21, 0, 0); //9 pm
-
-                        foreach (var flighted in flighting)
+                        if (checker == 0)
                         {
-                            string discountcheck2 = Convert.ToString(flighted.GetValue(4)); 
-                            DateTime dateTime = Convert.ToDateTime(discountcheck2);
-                            TimeSpan discountchecker2 = dateTime.TimeOfDay;
-                            if (discountchecker2 >= startTime && discountchecker2 <= endTime) // Checks if the Time of Departure/Arrival is before 11am and after 9pm
-                            {
-                                total += 0;
-                            }
-                            else
-                            {
-                                total -= 110;
-                                totaldiscount += 110;
-                            }
-                            string discountcheck3 = Convert.ToString(flighted.GetValue(2));
-                            if (discountcheck3 == "Dubai (DXB)" || discountcheck3 == "Bangkok (BKK)" || discountcheck3 == "Tokyo (NRT)") // Checks if Origin is Dubai, Bangkok or Tokyo
-                            {
-                                total -= 25;
-                                totaldiscount += 25;
-                            }
-                            else
-                            {
-                                total += 0;
-                                totaldiscount += 0;
-                            }
-                            if (flighted.GetValue(7) == null) // Checks if there a flight has a Special Request code or not
-                            {
-                                total -= 50;
-                                totaldiscount += 50;
-                            }
-                            else
-                            {
-                                total += 0;
-                                totaldiscount += 0;
-                            }
+                            TimeSpan startTime = new TimeSpan(11, 0, 0); // 11 am
+                            TimeSpan endTime = new TimeSpan(21, 0, 0); //9 pm
 
+
+                            foreach (var flighted in flighting)
+                            {
+                                string discountcheck2 = Convert.ToString(flighted.GetValue(4));
+                                DateTime dateTime = Convert.ToDateTime(discountcheck2);
+                                TimeSpan discountchecker2 = dateTime.TimeOfDay;
+                                if (discountchecker2 >= startTime && discountchecker2 <= endTime) // Checks if the Time of Departure/Arrival is before 11am and after 9pm
+                                {
+                                    total += 0;
+                                }
+                                else
+                                {
+                                    total -= 110;
+                                    totaldiscount += 110;
+                                }
+                                string discountcheck3 = Convert.ToString(flighted.GetValue(2));
+                                if (discountcheck3 == "Dubai (DXB)" || discountcheck3 == "Bangkok (BKK)" || discountcheck3 == "Tokyo (NRT)") // Checks if Origin is Dubai, Bangkok or Tokyo
+                                {
+                                    total -= 25;
+                                    totaldiscount += 25;
+                                }
+                                else
+                                {
+                                    total += 0;
+                                    totaldiscount += 0;
+                                }
+                                if (flighted.GetValue(7) == null) // Checks if there a flight has a Special Request code or not
+                                {
+                                    total -= 50;
+                                    totaldiscount += 50;
+                                }
+                                else
+                                {
+                                    total += 0;
+                                    totaldiscount += 0;
+                                }
+
+
+                            }
+                            subtotaldiscount += totaldiscount; // Gets subtotal of discounts
+                            double percent = (subtotaldiscount / (totalfirst - subtotaldiscount)) * 100; // Gets percentage of total discount over final subtotal
+                            string percentage = percent.ToString("#.##");
+                            Console.WriteLine($"The original total was ${totalfirst}");
+                            Console.WriteLine($"Subtotal of discounts is ${subtotaldiscount}");
+                            Console.WriteLine($"The final total of Airline fees that Terminal 5 will collect is ${totalfirst - subtotaldiscount}");
+                            Console.WriteLine($"The percentage of the subtotal discounts over the final total of fees is {percentage}%");
                         }
-                        subtotaldiscount += totaldiscount; // Gets subtotal of discounts
-                        double percent = (subtotaldiscount / (totalfirst - subtotaldiscount)) * 100; // Gets percentage of total discount over final subtotal
-                        string percentage = percent.ToString("#.##");
-                        Console.WriteLine($"The original total was ${totalfirst}");
-                        Console.WriteLine($"Subtotal of discounts is ${subtotaldiscount}");
-                        Console.WriteLine($"The final total of Airline fees that Terminal 5 will collect is ${totalfirst -subtotaldiscount}");
-                        Console.WriteLine($"The percentage of the subtotal discounts over the final total of fees is {percentage}%");
+                        else if (checker == 1)
+                        {
+                            Console.WriteLine("");
+                        }
                     }
                 }
+
 
                 catch (FormatException ex)
                 {
